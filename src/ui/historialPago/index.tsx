@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLoan } from "../context";
 import { NumberFormat } from "../numberFormat";
-import { addMonths, getDaysInMonth, parseISO } from "date-fns";
 import { TableLayout } from "../layout";
 
 interface HistorialPagoProps {
@@ -11,15 +10,7 @@ interface HistorialPagoProps {
 export const HistorialPago: React.FC<HistorialPagoProps> = ({
   title = "HISTORIAL DE PAGO",
 }) => {
-  const {
-    cuotas,
-    monedaPagar,
-    numeroCuotas,
-    fechaInicioPrestamo,
-    importePagar,
-    cuotaMensual,
-    tasaInteresMensual,
-  } = useLoan();
+  const { cuotas, monedaPagar, numeroCuotas } = useLoan();
   const [pagos, setPagos] = useState<any>([]);
 
   useEffect(() => {
@@ -129,6 +120,7 @@ export const HistorialPago: React.FC<HistorialPagoProps> = ({
                   sufix={monedaPagar}
                 />
               </td>
+              <td>{prev?.id}</td>
             </tr>
           );
         })}
@@ -136,47 +128,3 @@ export const HistorialPago: React.FC<HistorialPagoProps> = ({
     </TableLayout>
   );
 };
-/**
-
-    <table border={1} cellSpacing={0}>
-      <thead>
-        <tr>
-          <th>N° CUOTA</th>
-          <th>FECHA DE PAGO</th>
-          <th>DÍAS</th>
-          <th>PRORRATEO DÍAS</th>
-          <th>INTERÉS REAL</th>
-          <th>CUOTA</th>
-          <th>CUOTA INTERÉS</th>
-          <th>CUOTA CAPITAL</th>
-          <th>MONTO PAGADO</th>
-          <th>MONTO PAGADO ACUMULADO</th>
-          <th>MONTO ADICIONAL</th>
-          <th>SALDO PENDIENTE</th>
-          <th>CUOTA INTERÉS ACUMULADO</th>
-          <th>CUOTA CAPITAL ACUMULADO</th>
-        </tr>
-      </thead>
-      <tbody>
-        {cuotas.map((row) => (
-          <tr key={row.id}>
-            <td>{row.nro}</td>
-            <td>{row.fechaPago}</td>
-            <td>{row.dias}</td>
-            <td>{row.diasProrrateo}</td>
-            <td>{row.interesReal?.toFixed(2)}</td>
-            <td>{row.cuota?.toFixed(2)}</td>
-            <td>{row.cuotaInteres?.toFixed(2)}</td>
-            <td>{row.cuotaCapital?.toFixed(2)}</td>
-            <td>{row.montoPagado?.toFixed(2)}</td>
-            <td>{row.montoPagadoAcumulado?.toFixed(2)}</td>
-            <td>{row.montoAdicional?.toFixed(2)}</td>
-            <td>{row.saldoPendiente?.toFixed(2)}</td>
-            <td>{row.cuotaInteresAcumulado?.toFixed(2)}</td>
-            <td>{row.cuotaCapitalAcumulado?.toFixed(2)}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
- * 
- */
