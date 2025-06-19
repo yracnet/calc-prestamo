@@ -10,13 +10,13 @@ createRoot(document.getElementById("root")!).render(
   <Provider>
     <LoanProvider>
       <TemplateLayout>
-        <div className="cell1">
+        <div className="a1">
           <DatosPrestamo />
         </div>
-        <div className="cell2">
+        <div className="b1">
           <PlanPago />
         </div>
-        <div className="cell3">
+        <div className="b2">
           <HistorialPago />
         </div>
       </TemplateLayout>

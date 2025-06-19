@@ -3,6 +3,7 @@ import * as yup from "yup";
 export type LoanPayment = {
   currency: string;
   totalPayments: number;
+  interestRate: number;
   interestPerPayment: number;
   interestTotalAmount: number;
   paymentStartDate: string;
