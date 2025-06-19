@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 export type LoanPayment = {
   currency: string;
-  startDate: string;
+  startDate: Date;
   totalPayments: number;
   monthsPerPayment: number;
 

@@ -1,18 +1,18 @@
+import { addMonths } from "date-fns";
 import {
   createContext,
-  useState,
   useContext,
   useEffect,
-  type ReactNode,
+  useState,
   type Dispatch,
   type FC,
+  type ReactNode,
   type SetStateAction,
 } from "react";
-import { addMonths } from "date-fns";
 
 interface Cuota {
   id: number;
-  nro: string | number;
+  code: string | number;
   montoCuota: number;
   montoCuotaInteres: number;
   montoCuotaCapital: number;
@@ -110,7 +110,7 @@ export const LoanProvider: FC<LoanProviderProps> = ({ children }) => {
     const nuevaCuotas: Cuota[] = [
       {
         id: 1,
-        nro: "-",
+        code: "-",
         montoCuota: 0,
         montoCuotaInteres: 0,
         montoCuotaCapital: 0,
@@ -124,7 +124,7 @@ export const LoanProvider: FC<LoanProviderProps> = ({ children }) => {
       const montoCuotaCapital = nuevaCuotaMensual - montoCuotaInteres;
       nuevaCuotas[index] = {
         id: index + 1,
-        nro: index,
+        code: index,
         montoCuota: nuevaCuotaMensual,
         montoCuotaInteres,
         montoCuotaCapital,

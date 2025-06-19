@@ -3,13 +3,13 @@ import type { LoanPayment } from "./model";
 
 export const LoanPaymentState = atom<LoanPayment>({
   currency: "BOB",
-  totalPayments: 240,
-  interestAnnual: 5,
-  interestPerPeriod: 0.5,
-  interestTotal: 0,
-  startDate: "2025-06-13",
-  principalAmount: 100,
-  paymentAmount: 0,
+  interestAnnual: 0.073,
+  interestPerPeriod: 0.006083333333333333,
+  interestTotal: 225584.2180428775,
+  startDate: new Date(),
+  principalAmount: 348000,
+  totalPayments: 180,
+  paymentAmount: 3186.578989127097,
   monthsPerPayment: 1,
 });
 

@@ -1,4 +1,4 @@
-import { addMonths } from "date-fns";
+import { addMonths, parseISO } from "date-fns";
 import { useEffect, useState } from "react";
 import { TableLayout } from "../layout";
 import { NumberFormat } from "../numberFormat";
@@ -6,6 +6,7 @@ import { useLoanPaymentState } from "../state";
 
 export const PlanPago = () => {
   const [loanPayment] = useLoanPaymentState();
+  console.log(loanPayment);
   const {
     currency,
     totalPayments,
@@ -15,31 +16,31 @@ export const PlanPago = () => {
     paymentAmount,
     monthsPerPayment,
   } = loanPayment;
-  const [cuotas, setCuotas] = useState<any[]>([]);
-
+  const [items, setItems] = useState<any[]>([]);
   const onReload = () => {
-    let date = new Date(startDate);
     const nuevaCuotas: any[] = [
       {
         id: 1,
-        nro: "-",
+        code: "-",
         montoCuota: 0,
         montoCuotaInteres: 0,
         montoCuotaCapital: 0,
         principalAmount,
-        paymentDate: date.toISOString().split("T")[0],
+        paymentDate: startDate?.toISOString().split("T")[0],
       },
     ];
     try {
       for (let index = 1; index <= totalPayments; index++) {
-        date = addMonths(date, monthsPerPayment);
-        const paymentDate = date.toISOString().split("T")[0];
         const prev = nuevaCuotas[index - 1];
+        const prevDate = parseISO(prev.paymentDate);
+        const date = addMonths(prevDate, monthsPerPayment);
+
+        const paymentDate = date.toISOString().split("T")[0];
         const montoCuotaInteres = prev.principalAmount * interestPerPeriod;
         const montoCuotaCapital = paymentAmount - montoCuotaInteres;
         nuevaCuotas[index] = {
           id: index + 1,
-          nro: index,
+          code: index,
           montoCuota: paymentAmount,
           montoCuotaInteres,
           montoCuotaCapital,
@@ -51,7 +52,7 @@ export const PlanPago = () => {
     } catch (error) {
       console.log(error);
     }
-    setCuotas(nuevaCuotas);
+    setItems(nuevaCuotas);
   };
   useEffect(() => {
     onReload();
@@ -73,9 +74,9 @@ export const PlanPago = () => {
         </tr>
       </thead>
       <tbody>
-        {cuotas.map((row) => (
+        {items.map((row) => (
           <tr key={row.id}>
-            <td align="right">{row.nro}</td>
+            <td align="right">{row.code}</td>
             <td align="right">{row.paymentDate}</td>
             <td align="right">
               <NumberFormat value={row.montoCuota} sufix={currency} />
