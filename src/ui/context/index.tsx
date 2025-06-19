@@ -21,7 +21,6 @@ interface Cuota {
 }
 
 interface LoanContextType {
-  // Datos de entrada
   monedaPrestamo: string;
   setMonedaPrestamo: Dispatch<SetStateAction<string>>;
   importePrestamo: number;

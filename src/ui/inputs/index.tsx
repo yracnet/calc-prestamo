@@ -1,89 +1,86 @@
-import React, {
-  type ChangeEvent,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import type { FC } from "react";
+import { FormProvider, useForm, useFormContext } from "react-hook-form";
+
+export const Form2Provider: FC<any> = ({ onSubmit, children, schema }) => {
+  const methods = useForm({
+    resolver: yupResolver(schema),
+  });
+  return (
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>{children}</form>
+    </FormProvider>
+  );
+};
+
+interface ErrorInputProps {
+  name: string;
+}
+
+export const ErrorInput: FC<ErrorInputProps> = ({ name }) => {
+  const {
+    formState: { errors },
+  } = useFormContext();
+  const error = errors[name]?.message as string | undefined;
+  return error ? <div style={{ color: "red" }}>{error}</div> : null;
+};
 
 interface InputNumberProps {
-  value: number;
-  setValue: Dispatch<SetStateAction<number>>;
+  name: string;
   step?: string | number;
   placeholder?: string;
 }
-
-export const InputNumber: React.FC<InputNumberProps> = ({
-  value,
-  setValue,
+export const InputNumber: FC<InputNumberProps> = ({
+  name,
   step = "any",
   placeholder,
 }) => {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(parseFloat(e.target.value));
-  };
-
+  const { register } = useFormContext();
   return (
-    <div className="input-container">
+    <>
       <input
-        value={value}
-        onChange={handleChange}
+        type="text"
         step={step}
         placeholder={placeholder}
+        {...register(name)}
       />
-    </div>
+      <ErrorInput name={name} />
+    </>
   );
 };
 
 interface InputDateProps {
-  value: string;
-  setValue: (value: string) => void;
+  name: string;
   placeholder?: string;
 }
 
-export const InputDate: React.FC<InputDateProps> = ({
-  value,
-  setValue,
-  placeholder,
-}) => {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
-
+export const InputDate: FC<InputDateProps> = ({ name, placeholder }) => {
+  const { register } = useFormContext();
   return (
-    <div className="input-container">
-      <input
-        type="date"
-        value={value}
-        onChange={handleChange}
-        placeholder={placeholder}
-      />
-    </div>
+    <>
+      <input type="date" placeholder={placeholder} {...register(name)} />
+      <ErrorInput name={name} />
+    </>
   );
 };
 
 interface InputOptionsProps {
-  value: string;
-  setValue: (value: string) => void;
+  name: string;
   options: string[];
 }
 
-export const InputOptions: React.FC<InputOptionsProps> = ({
-  value,
-  setValue,
-  options,
-}) => {
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setValue(e.target.value);
-  };
-
+export const InputOptions: FC<InputOptionsProps> = ({ name, options }) => {
+  const { register } = useFormContext();
   return (
-    <div className="input-container">
-      <select value={value} onChange={handleChange}>
+    <>
+      <select {...register(name)}>
         {options.map((option) => (
           <option key={option} value={option}>
             {option}
           </option>
         ))}
       </select>
-    </div>
+      <ErrorInput name={name} />
+    </>
   );
 };

@@ -1,25 +1,25 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { RecoilRoot } from "recoil";
 import { LoanProvider } from "./ui/context";
-import { DatosPrestamo } from "./ui/data";
-import { CellItem, TemplateLayout } from "./ui/layout";
-import { PlanPago } from "./ui/planPago";
+import { DatosPrestamo } from "./ui/form";
 import { HistorialPago } from "./ui/historialPago";
+import { TemplateLayout } from "./ui/layout";
+import { PlanPago } from "./ui/planPago";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+  <RecoilRoot>
     <LoanProvider>
       <TemplateLayout>
-        <CellItem>
+        <div className="cell1">
           <DatosPrestamo />
-        </CellItem>
-        <CellItem index={2}>
+        </div>
+        <div className="cell2">
           <PlanPago />
-        </CellItem>
-        <CellItem index={3}>
+        </div>
+        <div className="cell3">
           <HistorialPago />
-        </CellItem>
+        </div>
       </TemplateLayout>
     </LoanProvider>
-  </StrictMode>
+  </RecoilRoot>
 );

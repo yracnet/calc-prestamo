@@ -1,15 +1,6 @@
 import type { FC, ReactNode } from "react";
 import styled from "styled-components";
 
-interface CellProps {
-  index?: number | string;
-  children: ReactNode;
-}
-
-interface CellLabelProps extends CellProps {
-  label: string;
-}
-
 export const BaseLayout = styled.div`
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -20,11 +11,11 @@ export const BaseLayout = styled.div`
   grid-template-rows: repeat(12, min-content);
   gap: 0px 5px;
   ${["", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => [
-    `> .label${i} { grid-area: l${i}; }`,
-    `> .value${i} { grid-area: v${i}; }`,
-    `> .title${i} { grid-area: t${i}; }`,
+    `> .label${i}  { grid-area: l${i}; }`,
+    `> .value${i}  { grid-area: v${i}; }`,
+    `> .title${i}  { grid-area: t${i}; }`,
     `> .action${i} { grid-area: a${i}; }`,
-    `> .cell${i}  { grid-area: c${i}; }`,
+    `> .cell${i}   { grid-area: c${i}; }`,
   ])}
   > .title {
     > h1,
@@ -50,28 +41,39 @@ export const BaseLayout = styled.div`
   }
 `;
 
-export const CellTitle: FC<CellProps> = ({ index = "1", children }) => {
-  return <div className={`title title${index}`}>{children}</div>;
+interface CellProps {
+  name?: string;
+  children: ReactNode;
+}
+export const CellTitle: FC<CellProps> = ({ name = "1", children }) => {
+  return <div className={`title title${name}`}>{children}</div>;
 };
 
-export const CellItem: FC<CellProps> = ({ index = "1", children }) => {
-  return <div className={`cell cell${index}`}>{children}</div>;
+export const CellAction: FC<CellProps> = ({ name = "1", children }) => {
+  return <div className={`action action${name}`}>{children}</div>;
 };
 
-export const CellAction: FC<CellProps> = ({ index = "1", children }) => {
-  return <div className={`action action${index}`}>{children}</div>;
-};
+interface CellLabelProps extends CellProps {
+  label: string;
+}
+export const InputLayout = styled(BaseLayout)`
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content min-content;
+  grid-template-areas:
+    "l1"
+    "v1";
+`;
 
-export const CellLabel: FC<CellLabelProps> = ({
-  index = "1",
+export const CellInput: FC<CellLabelProps> = ({
+  name = "1",
   label,
   children,
 }) => {
   return (
-    <>
-      <div className={`label label${index}`}>{label}</div>
-      <div className={`value value${index}`}>{children}</div>
-    </>
+    <InputLayout className={`cell cell${name}`}>
+      <div className="label label1">{label}</div>
+      <div className="value value1">{children}</div>
+    </InputLayout>
   );
 };
 
@@ -89,8 +91,8 @@ export const FormLayout = styled(BaseLayout)`
   grid-template-rows: repeat(3, min-content);
   grid-template-areas:
     "t1 t1 t1 t1 a1"
-    "l1 l2 l3 l4 l5"
-    "v1 v2 v3 v4 v5";
+    "c1 c2 c3 c4 c5"
+    "c6 c7 c8 c9 c10";
   padding-bottom: 10px;
   > .label {
     padding: 2px 5px 0px 5px;
