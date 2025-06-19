@@ -1,4 +1,4 @@
-import { addDays } from "date-fns";
+import { addMonths } from "date-fns";
 import { useEffect, useState } from "react";
 import { TableLayout } from "../layout";
 import { NumberFormat } from "../numberFormat";
@@ -9,16 +9,16 @@ export const PlanPago = () => {
   const {
     currency,
     totalPayments,
-    interestPerPayment,
-    paymentStartDate,
-    paymentTotalAmount,
-    scheduledPayment,
-    scheduledTime,
+    interestPerPeriod,
+    startDate,
+    principalAmount,
+    paymentAmount,
+    monthsPerPayment,
   } = loanPayment;
   const [cuotas, setCuotas] = useState<any[]>([]);
 
   const onReload = () => {
-    let date = new Date(paymentStartDate);
+    let date = new Date(startDate);
     const nuevaCuotas: any[] = [
       {
         id: 1,
@@ -26,24 +26,24 @@ export const PlanPago = () => {
         montoCuota: 0,
         montoCuotaInteres: 0,
         montoCuotaCapital: 0,
-        paymentTotalAmount,
+        principalAmount,
         paymentDate: date.toISOString().split("T")[0],
       },
     ];
     try {
       for (let index = 1; index <= totalPayments; index++) {
-        date = addDays(date, scheduledTime);
+        date = addMonths(date, monthsPerPayment);
         const paymentDate = date.toISOString().split("T")[0];
         const prev = nuevaCuotas[index - 1];
-        const montoCuotaInteres = prev.paymentTotalAmount * interestPerPayment;
-        const montoCuotaCapital = scheduledPayment - montoCuotaInteres;
+        const montoCuotaInteres = prev.principalAmount * interestPerPeriod;
+        const montoCuotaCapital = paymentAmount - montoCuotaInteres;
         nuevaCuotas[index] = {
           id: index + 1,
           nro: index,
-          montoCuota: scheduledPayment,
+          montoCuota: paymentAmount,
           montoCuotaInteres,
           montoCuotaCapital,
-          paymentTotalAmount: prev.paymentTotalAmount - montoCuotaCapital,
+          principalAmount: prev.principalAmount - montoCuotaCapital,
           paymentDate,
         };
       }
@@ -87,7 +87,7 @@ export const PlanPago = () => {
               <NumberFormat value={row.montoCuotaCapital} sufix={currency} />
             </td>
             <td align="right">
-              <NumberFormat value={row.paymentTotalAmount} sufix={currency} />
+              <NumberFormat value={row.principalAmount} sufix={currency} />
             </td>
           </tr>
         ))}

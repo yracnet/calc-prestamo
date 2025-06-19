@@ -2,14 +2,16 @@ import * as yup from "yup";
 
 export type LoanPayment = {
   currency: string;
+  startDate: string;
   totalPayments: number;
-  interestRate: number;
-  interestPerPayment: number;
-  interestTotalAmount: number;
-  paymentStartDate: string;
-  paymentTotalAmount: number;
-  scheduledPayment: number;
-  scheduledTime: number;
+  monthsPerPayment: number;
+
+  principalAmount: number;
+  paymentAmount: number;
+
+  interestAnnual: number;
+  interestPerPeriod: number;
+  interestTotal: number;
 };
 
 export const loanPaymentSchema = yup.object({
@@ -20,12 +22,12 @@ export const loanPaymentSchema = yup.object({
     .required()
     .integer()
     .min(1),
-  interestPerPayment: yup
+  interestPerPeriod: yup
     .number()
     .transform((_, originalValue) => parseFloat(originalValue))
     .required()
     .min(0),
-  paymentStartDate: yup
+  startDate: yup
     .date()
     .transform((_, originalValue) => new Date(originalValue))
     .required(),
@@ -41,7 +43,7 @@ export type LoanConfig = {
   referenceRate: number;
   years: number;
   paymentsPerYear: number;
-  paymentStartDate: string;
+  startDate: string;
 };
 
 export const loanConfigSchema = yup.object({
@@ -90,7 +92,7 @@ export const loanConfigSchema = yup.object({
     .min(1)
     .integer(),
 
-  paymentStartDate: yup
+  startDate: yup
     .date()
     .transform((_, originalValue) => new Date(originalValue))
     .required(),

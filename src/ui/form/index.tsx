@@ -17,7 +17,7 @@ const DATA_INIT: LoanConfig = {
   referenceRate: 0,
   years: 15,
   paymentsPerYear: 12,
-  paymentStartDate: "2025-06-30",
+  startDate: "2025-06-30",
 };
 
 export const DatosPrestamo = () => {
@@ -32,29 +32,28 @@ export const DatosPrestamo = () => {
       referenceRate,
       years,
       paymentsPerYear,
-      paymentStartDate,
+      startDate,
     } = data;
-    const scheduledTime = 365 / paymentsPerYear;
-    const paymentTotalAmount = amount * paymentRate;
-    const interestRate = (annualRate + insuranceRate + referenceRate) / 100;
-    const interestPerPayment = interestRate / paymentsPerYear;
+    const monthsPerPayment = Math.round(12 / paymentsPerYear);
+    const principalAmount = amount * paymentRate;
+    const interestAnnual = (annualRate + insuranceRate + referenceRate) / 100;
+    const interestPerPeriod = interestAnnual / paymentsPerYear;
     const totalPayments = paymentsPerYear * years;
-    const scheduledPayment =
-      (paymentTotalAmount * interestPerPayment) /
-      (1 - Math.pow(1 + interestPerPayment, -totalPayments));
+    const paymentAmount =
+      (principalAmount * interestPerPeriod) /
+      (1 - Math.pow(1 + interestPerPeriod, -totalPayments));
 
-    const interestTotalAmount =
-      scheduledPayment * totalPayments - paymentTotalAmount;
+    const interestTotal = paymentAmount * totalPayments - principalAmount;
     setLoanPayment({
       currency: paymentCurrency,
-      interestRate,
-      interestPerPayment,
-      interestTotalAmount,
-      paymentStartDate,
-      paymentTotalAmount,
+      interestAnnual,
+      interestPerPeriod,
+      interestTotal,
+      startDate,
+      principalAmount,
       totalPayments,
-      scheduledPayment,
-      scheduledTime,
+      paymentAmount,
+      monthsPerPayment,
     });
   };
 
@@ -97,11 +96,11 @@ export const DatosPrestamo = () => {
         <CellInput label="Plazo del Préstamo (años)" className="c1">
           <InputNumber name="years" />
         </CellInput>
-        <CellInput label="Pagos por Año" className="c2">
+        <CellInput label="Numero de pagos por Año" className="c2">
           <InputNumber name="paymentsPerYear" />
         </CellInput>
         <CellInput label="Fecha de Inicio" className="c3">
-          <InputDate name="paymentStartDate" />
+          <InputDate name="startDate" />
         </CellInput>
       </FormLayout>
       <FormLayout>
@@ -113,7 +112,7 @@ export const DatosPrestamo = () => {
         </div>
         <CellInput label={`Importe Prestamo`} className="a1">
           <NumberFormat
-            value={loanPayment.paymentTotalAmount}
+            value={loanPayment.principalAmount}
             sufix={loanPayment.currency}
           />
         </CellInput>
@@ -126,22 +125,19 @@ export const DatosPrestamo = () => {
         </CellInput>
         <CellInput label={`Importe Interes`} className="b1">
           <NumberFormat
-            value={loanPayment.interestTotalAmount}
+            value={loanPayment.interestTotal}
             sufix={loanPayment.currency}
           />
         </CellInput>
         <CellInput label="Tasa de Interés Anual" className="b2">
-          <NumberFormat value={loanPayment.interestRate * 100} sufix="%" />
+          <NumberFormat value={loanPayment.interestAnnual * 100} sufix="%" />
         </CellInput>
         <CellInput label="Tasa de Interés por Cuota" className="b3">
-          <NumberFormat
-            value={loanPayment.interestPerPayment * 100}
-            sufix="%"
-          />
+          <NumberFormat value={loanPayment.interestPerPeriod * 100} sufix="%" />
         </CellInput>
         <CellInput label="Cuota Mensual" className="a3">
           <NumberFormat
-            value={loanPayment.scheduledPayment}
+            value={loanPayment.paymentAmount}
             sufix={loanPayment.currency}
           />
         </CellInput>
