@@ -14,12 +14,12 @@
     "bootstrap": "^5.3.7",
     "date-fns": "^4.1.0",
     "evergreen-ui": "^7.1.9",
+    "jotai": "^2.12.5",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.58.1",
     "recharts": "^2.15.3",
-    "recoil": "^0.7.7",
     "sass": "^1.89.2",
     "styled-components": "^6.1.19",
     "yup": "^1.6.1"

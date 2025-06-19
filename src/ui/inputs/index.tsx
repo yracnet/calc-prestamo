@@ -2,9 +2,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import type { FC } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
-export const Form2Provider: FC<any> = ({ onSubmit, children, schema }) => {
+export const Form2Provider: FC<any> = ({
+  onSubmit,
+  children,
+  schema,
+  init,
+}) => {
   const methods = useForm({
     resolver: yupResolver(schema),
+    defaultValues: init,
   });
   return (
     <FormProvider {...methods}>
@@ -22,7 +28,9 @@ export const ErrorInput: FC<ErrorInputProps> = ({ name }) => {
     formState: { errors },
   } = useFormContext();
   const error = errors[name]?.message as string | undefined;
-  return error ? <div style={{ color: "red" }}>{error}</div> : null;
+  return error ? (
+    <span style={{ fontSize: "10px", color: "red" }}>{error}</span>
+  ) : null;
 };
 
 interface InputNumberProps {

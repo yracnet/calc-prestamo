@@ -4,7 +4,11 @@ export type LoanPayment = {
   currency: string;
   totalPayments: number;
   interestPerPayment: number;
+  interestTotalAmount: number;
   paymentStartDate: string;
+  paymentTotalAmount: number;
+  scheduledPayment: number;
+  scheduledTime: number;
 };
 
 export const loanPaymentSchema = yup.object({
@@ -31,7 +35,6 @@ export type LoanConfig = {
   amount: number;
   paymentRate: number;
   paymentCurrency: string;
-  loanImport: string;
   annualRate: number;
   insuranceRate: number;
   referenceRate: number;
