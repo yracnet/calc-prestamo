@@ -84,25 +84,6 @@ export const FormLayout = styled(BaseLayout)`
   padding-bottom: 10px;
 `;
 
-// > .label {
-//   padding: 2px 5px 0px 5px;
-// }
-// > .value {
-//   padding: 0px 5px 2px 5px;
-//   > span {
-//     border: 1px solid black;
-//     padding: 2px 5px 2px 5px;
-//   }
-// }
-// > .action {
-//   button {
-//     padding: 2px 5px;
-//     background-color: white;
-//     min-width: 80px;
-//     font-weight: bold;
-//   }
-// }
-
 export const TableLayout = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -117,6 +98,17 @@ export const TableLayout = styled.table`
         padding: 2px 5px;
         text-align: left;
         font-size: 12px;
+
+        &.in {
+          padding: 0;
+          margin: 0;
+          > input,
+          > select {
+            border: none;
+            box-sizing: border-box;
+            text-align: end;
+          }
+        }
       }
       &.paid {
         color: black;
