@@ -118,6 +118,19 @@ export const TableLayout = styled.table`
         text-align: left;
         font-size: 12px;
       }
+      &.paid {
+        color: black;
+      }
+      &.unpaid {
+        color: #bfbfbf;
+        th,
+        td,
+        input,
+        select {
+          border: 1px solid #bfbfbf;
+          color: #bfbfbf;
+        }
+      }
     }
   }
 `;

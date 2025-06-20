@@ -2,6 +2,11 @@ import { addMonths, parseISO } from "date-fns";
 import { atom, useAtom, useAtomValue, useSetAtom } from "jotai";
 import type { LoanPayment, PaymentItem } from "./model";
 
+export const roundUpAmount = (value: number, decimals: number = 2): number => {
+  const factor = Math.pow(10, decimals);
+  return Math.ceil(value * factor) / factor;
+};
+
 const LoanPaymentState = atom<LoanPayment>({
   currency: "BOB",
   interestAnnual: 0.073,
@@ -40,6 +45,7 @@ export const useLoanPaymentState = (): [
         id: 1,
         code: "-",
         currency,
+        interestPayment: 0,
         paymentAmount: 0,
         paymentInterest: 0,
         paymentPrincipal: 0,
@@ -59,6 +65,7 @@ export const useLoanPaymentState = (): [
         id: index + 1,
         code: `${index}`,
         currency,
+        interestPayment: interestPerPeriod,
         paymentAmount,
         paymentInterest,
         paymentPrincipal,
@@ -81,5 +88,7 @@ export const useLoanPaymentState = (): [
   };
   return [value, setProxy];
 };
+
+export const useLoanPaymentValue = () => useAtomValue(LoanPaymentState);
 
 export const usePaymentItems = () => useAtomValue(PaymentItemsState);

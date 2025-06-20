@@ -13,6 +13,7 @@ export const PlanPago = () => {
         </tr>
         <tr>
           <th>FECHA DE PAGO</th>
+          <th>FECHA INTERES</th>
           <th>MONTO CUOTA</th>
           <th>CUOTA INTERÉS</th>
           <th>CUOTA CAPITAL</th>
@@ -24,6 +25,9 @@ export const PlanPago = () => {
           <tr key={row.id}>
             <td align="right">{row.code}</td>
             <td align="right">{row.paymentDate}</td>
+            <td align="right">
+              <NumberFormat value={row.interestPayment * 100} sufix="%" />
+            </td>
             <td align="right">
               <NumberFormat value={row.paymentAmount} sufix={row.currency} />
             </td>

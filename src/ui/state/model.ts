@@ -5,6 +5,7 @@ export type PaymentItem = {
   code: string;
   currency: string;
   paymentAmount: number;
+  interestPayment: number;
   paymentInterest: number;
   paymentPrincipal: number;
   remainingPrincipal: number;
