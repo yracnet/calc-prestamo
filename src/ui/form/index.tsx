@@ -17,7 +17,7 @@ const DATA_INIT: LoanConfig = {
   referenceRate: 0,
   years: 15,
   paymentsPerYear: 12,
-  startDate: "2025-06-30",
+  startDate: new Date(),
 };
 
 export const DatosPrestamo = () => {

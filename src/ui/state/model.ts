@@ -1,5 +1,16 @@
 import * as yup from "yup";
 
+export type PaymentItem = {
+  id: number;
+  code: string;
+  currency: string;
+  paymentAmount: number;
+  paymentInterest: number;
+  paymentPrincipal: number;
+  remainingPrincipal: number;
+  paymentDate: string;
+};
+
 export type LoanPayment = {
   currency: string;
   startDate: Date;
@@ -43,7 +54,7 @@ export type LoanConfig = {
   referenceRate: number;
   years: number;
   paymentsPerYear: number;
-  startDate: string;
+  startDate: Date;
 };
 
 export const loanConfigSchema = yup.object({
